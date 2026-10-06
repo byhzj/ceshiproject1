@@ -1,1 +1,0 @@
-{"uuid": "96a062ce-579f-4e68-a956-24ae0fd77748", "children": ["ceca47fc-5dea-446b-91f8-72ef095771c5"], "befores": [{"name": "created_contract_id", "status": "passed", "start": 1790675163406, "stop": 1790675163659}], "afters": [{"name": "created_contract_id::<lambda>", "start": 1790675164299}], "start": 1790675163406, "stop": 1790675164299}
