@@ -5,7 +5,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 # 项目根目录
-BASE_DIR = SCRIPT_DIR.parent
+BASE_DIR = SCRIPT_DIR
 RESULTS = SCRIPT_DIR  / "reports" / "allure-results"
 REPORT_DIR = SCRIPT_DIR  / "reports" / "allure-report"
 ALLURE_PATH = r"D:\python\allure\allure-2.46.1\bin\allure.bat"
