@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
-from niweiming_kdtx.src.common import Api
-from niweiming_kdtx.src.common_yaml import load_yaml
+from src.common import Api
+from src.common_yaml import load_yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 

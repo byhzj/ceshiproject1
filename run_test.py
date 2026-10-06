@@ -26,7 +26,8 @@ def generate_report(pytest_args=None):
 
     result = subprocess.run(cmd, cwd=BASE_DIR, shell=True)
     if result.returncode != 0:
-        print(f"测试退出码 {result.returncode}，仍继续生成报告。")
+        print(f"测试失败，退出码 {result.returncode}")
+        sys.exit(result.returncode)
 
     print("生成报告到指定文件夹...")
     subprocess.run(
