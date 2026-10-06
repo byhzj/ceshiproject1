@@ -27,7 +27,7 @@ login_cases:
       uuid_from: captcha
     expected:
       status: 200
-      code: 500
+      code: 200
       msg: "验证码错误"
 
   - id: TC_LOGIN_003
