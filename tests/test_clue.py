@@ -1,7 +1,7 @@
 import allure
 import pytest
 import random
-from niweiming_kdtx.src.common_yaml import load_yaml
+from src.common_yaml import load_yaml
 
 data = load_yaml("data/clue.yaml")
 add_cases = data.get("add_cases", [])

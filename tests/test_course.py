@@ -2,7 +2,7 @@ import allure
 import pytest
 import time
 import random
-from niweiming_kdtx.src.common_yaml import load_yaml
+from src.common_yaml import load_yaml
 
 # data = load_yaml("data/course.yaml")
 # add_cases = data.get("add_cases", [])

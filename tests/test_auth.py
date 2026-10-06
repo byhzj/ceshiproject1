@@ -1,6 +1,6 @@
 import allure
 import pytest
-from niweiming_kdtx.src.common_yaml import load_yaml
+from src.common_yaml import load_yaml
 
 
 @allure.feature("认证")

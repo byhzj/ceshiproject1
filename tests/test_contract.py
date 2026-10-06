@@ -2,7 +2,7 @@ import allure
 import pytest
 import random
 import time
-from niweiming_kdtx.src.common_yaml import load_yaml
+from src.common_yaml import load_yaml
 
 # 加载数据
 data = load_yaml("data/contract.yaml")
