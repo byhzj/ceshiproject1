@@ -36,25 +36,25 @@ def generate_report(pytest_args=None):
     )
     print(f"报告已生成至: {REPORT_DIR}")
 
-    print("打开服务器，正在打开报告...")
-    subprocess.run(
-        [ALLURE_PATH, "open", str(REPORT_DIR)],
-        cwd=BASE_DIR,
-        shell=True
-    )
-
-
-def open_report():
-    """仅打开已生成的 Allure 报告"""
-    if not REPORT_DIR.exists() or not (REPORT_DIR / "index.html").exists():
-        print(f"错误：报告目录 {REPORT_DIR} 不存在或不完整，请先生成报告。")
-        sys.exit(1)
-    print("启动 Allure 报告服务器...")
-    subprocess.run(
-        [ALLURE_PATH, "open", str(REPORT_DIR)],
-        cwd=BASE_DIR,
-        shell=True
-    )
+#     print("打开服务器，正在打开报告...")
+#     subprocess.run(
+#         [ALLURE_PATH, "open", str(REPORT_DIR)],
+#         cwd=BASE_DIR,
+#         shell=True
+#     )
+#
+#
+# def open_report():
+#     """仅打开已生成的 Allure 报告"""
+#     if not REPORT_DIR.exists() or not (REPORT_DIR / "index.html").exists():
+#         print(f"错误：报告目录 {REPORT_DIR} 不存在或不完整，请先生成报告。")
+#         sys.exit(1)
+#     print("启动 Allure 报告服务器...")
+#     subprocess.run(
+#         [ALLURE_PATH, "open", str(REPORT_DIR)],
+#         cwd=BASE_DIR,
+#         shell=True
+#     )
 
 
 def main():
@@ -71,9 +71,10 @@ def main():
         # 传入额外的 pytest 参数
         generate_report(extra_args)
     elif mode == "open":
-        if extra_args:
-            print("警告：open 模式不支持额外参数，已忽略")
-        open_report()
+        if not REPORT_DIR.exists() or not (REPORT_DIR / "index.html").exists():
+            print(f"错误：报告目录不存在")
+            sys.exit(1)
+        subprocess.run([ALLURE_PATH, "open", str(REPORT_DIR)], cwd=BASE_DIR, shell=True)
     else:
         print(f"错误: 未知模式 '{mode}'，请输入 generate 或 open")
         sys.exit(1)
