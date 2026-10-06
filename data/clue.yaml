@@ -1,0 +1,250 @@
+# 新增线索
+add_cases:
+  - id: CLUE_ADD_1
+    desc: "新增线索 - 所有必填字段正确"
+    request:
+      activityId: ""
+      name: "自动线索01"
+      phone: "__PHONE__"
+      channel: "0"
+      sex: 0
+      age: 20
+      weixin: "wxxxxx01"
+      qq: ""
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_2
+    desc: "新增线索 - 手机号为空"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: ""
+      channel: "1"
+      sex: 1
+      age: 25
+      weixin: ""
+      qq: "123456"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_3
+    desc: "新增线索 - 手机号格式错误"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "__PHONE__"
+      channel: "0"
+      sex: 0
+      age: 30
+      weixin: ""
+      qq: ""
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_4
+    desc: "新增线索 - 手机号格式错误（含字母）"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "13800a13800"
+      channel: "0"
+      sex: 1
+      age: 22
+      weixin: ""
+      qq: ""
+    expected:
+      code: 500
+      msg: "手机号重复"
+
+  - id: CLUE_ADD_5
+    desc: "新增线索 - 姓名为空"
+    request:
+      activityId: ""
+      name: ""
+      phone: "__PHONE__"
+      channel: "2"
+      sex: 0
+      age: 18
+      weixin: ""
+      qq: "888888"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_6
+    desc: "新增线索 - channel错误"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "__PHONE__"
+      channel: "9"
+      sex: 0
+      age: 20
+      weixin: ""
+      qq: ""
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_7
+    desc: "新增线索 - 性别错误"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "__PHONE__"
+      channel: "0"
+      sex: 2
+      age: 20
+      weixin: ""
+      qq: ""
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_8
+    desc: "新增线索 - 年龄为负数"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "__PHONE__"
+      channel: "0"
+      sex: 0
+      age: -5
+      weixin: ""
+      qq: ""
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_9
+    desc: "新增线索 - 微信为空"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "__PHONE__"
+      channel: "0"
+      sex: 1
+      age: 28
+      weixin: ""
+      qq: ""
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: CLUE_ADD_10
+    desc: "新增线索 - QQ号包含非数字"
+    request:
+      activityId: ""
+      name: "测试线索"
+      phone: "__PHONE__"
+      channel: "1"
+      sex: 0
+      age: 25
+      weixin: ""
+      qq: "abc123"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+# 查询线索列表
+list_cases:
+  - id: CLUE_LIST_1
+    desc: "按手机号查询 - 存在数据"
+    request:
+      phone: "19717727279"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: CLUE_LIST_2
+    desc: "按手机号查询 - 不存在数据"
+    request:
+      phone: "19900000000"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: false
+
+  - id: CLUE_LIST_3
+    desc: "按姓名模糊查询"
+    request:
+      name: "自动线索"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: CLUE_LIST_4
+    desc: "按channel查询"
+    request:
+      channel: "0"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: CLUE_LIST_5
+    desc: "组合查询（手机号+channel）"
+    request:
+      phone: "19717727279"
+      channel: "1"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: CLUE_LIST_6
+    desc: "查询参数全为空"
+    request:
+      phone: ""
+      name: ""
+      channel: ""
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+
+# 删除线索
+delete_cases:
+  normal:
+    - id: CLUE_DELETE_1
+      desc: "删除线索 - 正常删除"
+      request:
+        reason: "2"
+        remark: "不需要"
+      expected:
+        code: 200
+        msg: "操作成功"
+
+    - id: CLUE_DELETE_2
+      desc: "删除线索 - 删除理由为空"
+      request:
+        reason: ""
+        remark: "无理由"
+      expected:
+        code: 200
+        msg: "操作成功"
+
+    - id: CLUE_DELETE_3
+      desc: "删除线索 - 删除remark为空"
+      request:
+        reason: "9"
+        remark: ""
+      expected:
+        code: 200
+        msg: "操作成功"
+
+    - id: CLUE_DELETE_4
+      desc: "删除不存在的线索"
+      request_id: 999999
+      request:
+        reason: "2"
+        remark: "测试"
+      expected:
+        code: 500

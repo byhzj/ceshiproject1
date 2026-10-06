@@ -1,0 +1,143 @@
+# 新增课程用例
+add_cases:
+  - id: TC_ADD_001
+    description: "新增课程 - 新增成功"
+    request:
+      name: "新增课程00111111"
+      subject: "6"
+      price: 899
+      applicablePerson: "2"
+      info: "课程描述"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_ADD_002
+    description: "新增课程 - 名称为空"
+    request:
+      name: ""
+      subject: "6"
+      price: 899
+      applicablePerson: "2"
+      info: "课程描述"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_ADD_003
+    description: "新增课程 - 价格为空"
+    request:
+      name: "新增课程002"
+      subject: "6"
+      price: null
+      applicablePerson: "2"
+      info: "课程描述"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_ADD_004
+    description: "新增课程 - 学科不存在"
+    request:
+      name: "新增课程003"
+      subject: "0"
+      price: 100
+      applicablePerson: "2"
+      info: "课程描述"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+# 查询列表用例
+list_cases:
+  - id: TC_LIST_001
+    description: "查询列表 - 有名称有学科，返回数据"
+    request:
+      name: "新增课程00111111"
+      subject: "6"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: TC_LIST_002
+    description: "查询列表 - 名称为空，有学科"
+    request:
+      name: ""
+      subject: "6"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: TC_LIST_003
+    description: "查询列表 - 名称不存在"
+    request:
+      name: "不存在的课程名称"
+      subject: "6"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: false
+
+  - id: TC_LIST_004
+    description: "查询列表 - 学科为空"
+    request:
+      name: "新增课程00111111"
+      subject: ""
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: TC_LIST_005
+    description: "查询列表 - 学科不存在"
+    request:
+      name: "新增课程00111111"
+      subject: "99"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: false
+
+# 修改课程用例
+update_cases:
+  - id: TC_UPDATE_001
+    description: "修改课程 - 修改名称"
+    request:
+      name: "修改后的名称"
+      subject: "6"
+      price: 999
+      applicablePerson: "2"
+      info: "修改描述"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_UPDATE_002
+    description: "修改课程 - 名称为空"
+    request:
+      name: ""
+      subject: "6"
+      price: 888
+      applicablePerson: "2"
+      info: "修改描述"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+# 删除课程用例
+delete_cases:
+  normal:
+    - id: TC_DELETE_001
+      description: "删除课程 - 存在的课程"
+      expected:
+        code: 200
+        msg: "删除成功！"
+  not_exist:
+    - id: TC_DELETE_002
+      description: "删除课程 - 不存在的id"
+      request_id: 999999
+      expected:
+        code: 500
+        msg: "操作失败"

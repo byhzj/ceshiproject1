@@ -1,0 +1,228 @@
+# 新增合同用例
+add_cases:
+  - id: TC_CONTRACT_ADD_001
+    description: "新增合同 - 所有必填字段正确"
+    request:
+      name: "张三"
+      phone: "13800138001"
+      contractNo: "__CNO__"
+      subject: "6"
+      courseId: 99
+      channel: "0"
+      activityId: 66
+      fileName: "UPLOAD"
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_CONTRACT_ADD_002
+    description: "新增合同 - 手机号为空"
+    request:
+      name: "李四"
+      phone: ""
+      contractNo: "__CNO__"
+      subject: "6"
+      courseId: 89
+      channel: "1"
+      activityId: 67
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: None
+
+  - id: TC_CONTRACT_ADD_003
+    description: "新增合同 - 手机号格式错误（不足11位）"
+    request:
+      name: "王五"
+      phone: "1380013800"
+      contractNo: "__CNO__"
+      subject: "6"
+      courseId: 90
+      channel: "0"
+      activityId: 68
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: None
+
+  - id: TC_CONTRACT_ADD_004
+    description: "新增合同 - 合同号重复"
+    request:
+      name: "赵六"
+      phone: "13900139001"
+      contractNo: "__CNO__"
+      subject: "6"
+      courseId: 91
+      channel: "2"
+      activityId: 69
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: None
+
+  - id: TC_CONTRACT_ADD_005
+    description: "新增合同 - 学科不存在"
+    request:
+      name: "孙七"
+      phone: "13700137001"
+      contractNo: "__CNO__"
+      subject: "99"
+      courseId: 92
+      channel: "0"
+      activityId: 70
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: None
+
+  - id: TC_CONTRACT_ADD_006
+    description: "新增合同 - courseId 不存在"
+    request:
+      name: "周八"
+      phone: "13600136001"
+      contractNo: "__CNO__"
+      subject: "6"
+      courseId: 99999
+      channel: "1"
+      activityId: 71
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: None
+
+  - id: TC_CONTRACT_ADD_007
+    description: "新增已存在的合同"
+    request:
+      name: "吴九"
+      phone: "13500135001"
+      contractNo: "HT_007"
+      subject: "6"
+      courseId: 93
+      channel: "9"
+      activityId: 72
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: "合同号已存在"
+
+  - id: TC_CONTRACT_ADD_008
+    description: "新增合同 - activityId 为空"
+    request:
+      name: "郑十"
+      phone: "13400134001"
+      contractNo: "__CNO__"
+      subject: "6"
+      courseId: 94
+      channel: "0"
+      activityId: null
+      fileName: "__UPLOAD__"
+    expected:
+      code: 500
+      msg: None
+
+# 查询合同列表用例
+list_cases:
+  - id: TC_CONTRACT_LIST_001
+    description: "按手机号查询 - 存在数据"
+    request:
+      phone: "13800138001"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: TC_CONTRACT_LIST_002
+    description: "按手机号查询 - 不存在数据"
+    request:
+      phone: "19900000000"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: false
+
+  - id: TC_CONTRACT_LIST_003
+    description: "按合同号查询（如果接口支持）"
+    request:
+      contractNo: "HT_001"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: TC_CONTRACT_LIST_004
+    description: "按手机号和合同号联合查询"
+    request:
+      phone: "13800138001"
+      contractNo: "HT_1790596133_5337"
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true
+
+  - id: TC_CONTRACT_LIST_005
+    description: "查询参数全为空"
+    request:
+      phone: ""
+      contractNo: ""
+    expected:
+      code: 200
+      msg: "查询成功"
+      rows_not_empty: true   # 假设返回所有数据
+
+#  修改合同用例
+update_cases:
+  - id: TC_CONTRACT_UPDATE_001
+    description: "修改合同 - 修改名称和手机号"
+    request:
+      name: "修改后的名字"
+      phone: "18812345678"
+      subject: "6"
+      courseId: 99
+      channel: "0"
+      activityId: 66
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_CONTRACT_UPDATE_002
+    description: "修改合同 - 名称为空"
+    request:
+      name: ""
+      phone: "18812345679"
+      subject: "6"
+      courseId: 99
+      channel: "0"
+      activityId: 66
+    expected:
+      code: 200
+      msg: "操作成功"
+
+  - id: TC_CONTRACT_UPDATE_003
+    description: "修改合同 - 手机号格式错误"
+    request:
+      name: "正常名称"
+      phone: "1"
+      subject: "6"
+      courseId: 99
+      channel: "0"
+      activityId: 66
+    expected:
+      code: 200
+      msg: "操作成功"
+
+
+# 删除合同用例
+delete_cases:
+  normal:
+    - id: TC_CONTRACT_DELETE_001
+      description: "删除存在的合同"
+      expected:
+        code: 200
+        msg: "删除成功！"
+  not_exist:
+    - id: TC_CONTRACT_DELETE_002
+      description: "删除不存在的合同"
+      request_id: 999999
+      expected:
+        code: 500
+        msg: "删除失败！"
