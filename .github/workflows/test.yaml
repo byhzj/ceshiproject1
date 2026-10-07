@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04   # 换用 Ubuntu 22.04，出口 IP 可能与 24.04 不同
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v6.1.0
@@ -29,7 +29,7 @@ jobs:
         run: uv pip install -r requirements.txt
 
       - name: Wait before tests (avoid WAF blocking)
-        run: sleep 3   # 等待3秒，让服务器放松
+        run: sleep 3
 
       - name: Run tests
         run: uv run pytest tests/ -v

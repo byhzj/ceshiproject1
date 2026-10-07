@@ -155,7 +155,7 @@ list_cases:
   - id: CLUE_LIST_1
     desc: "按手机号查询 - 存在数据"
     request:
-      phone: "19717727279"
+      phone: "18121666066"
     expected:
       code: 200
       msg: "查询成功"
@@ -191,7 +191,7 @@ list_cases:
   - id: CLUE_LIST_5
     desc: "组合查询（手机号+channel）"
     request:
-      phone: "19717727279"
+      phone: "18121666066"
       channel: "1"
     expected:
       code: 200
