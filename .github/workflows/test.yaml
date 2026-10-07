@@ -12,23 +12,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-24.04
-    container: astral/uv:python3.13.4
+    runs-on: ubuntu-latest
+    container: astral/uv:python3.12-bookworm-slim
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v9
-        with:
-          enable-cache: true
-          python-version: "3.13"
-
-      - name: Sync deps
-        run: uv sync --locked --all-extras --dev
-
-      - name: Test
-        run: uv run pytest
-
+        uses: actions/checkout@v6.1.0
+      - name: install Dependency
+        run: uv sync
       - name: Test
         run: uv run pytest tests/
