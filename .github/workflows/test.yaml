@@ -20,13 +20,13 @@ jobs:
         uses: astral-sh/setup-uv@v10.0.0
         with:
           enable-cache: true
-          python-version: "3.13"   # 自动使用最新 3.13.x
+          python-version: "3.13"
 
       - name: Create virtual environment
         run: uv venv
 
       - name: Install dependencies
-        run: uv pip sync requirements.txt
+        run: uv pip install -r requirements.txt   # 改用 install 而非 sync
 
       - name: Run tests
         run: uv run pytest tests/ -v
