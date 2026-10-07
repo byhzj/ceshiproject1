@@ -7,7 +7,6 @@ from src.common_yaml import load_yaml
 @allure.story("验证码")
 @allure.title("验证码用例")
 @pytest.mark.auth
-@pytest.mark.smoke
 def test_captcha(anon_api):
     """验证码接口获取 uuid 是否存在"""
     r = anon_api.captcha()
