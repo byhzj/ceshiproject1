@@ -4,25 +4,10 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'tests/**'
-      - 'src/**'
-      - '.github/**'
-      - 'requirements.txt'
-
   pull_request:
     branches:
       - master
-    paths:
-      - 'tests/**'
-      - 'src/**'
-    types:
-      - opened
-      - synchronize
-      - reopened
-
-  workflow_dispatch:
-
+    types: [opened, synchronize, reopened]
 
 jobs:
   test:
