@@ -31,31 +31,49 @@ jobs:
       - name: Wait before tests (avoid WAF blocking)
         run: sleep 3
 
-      # ---------- Allure 相关 ----------
-      # 1. 安装 Java（Allure CLI 需要 JVM）
       - name: Set up Java 17
         uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
 
-      # 2. 通过 npm 安装 allure-commandline（比 apt 更可靠）
       - name: Install Allure CLI via npm
         run: npm install -g allure-commandline
 
-      # 3. 运行测试并生成 Allure 结果
       - name: Run tests with Allure results
         run: uv run pytest tests/ -v --alluredir=allure-results
 
-      # 4. 生成 HTML 报告
       - name: Generate Allure report
         if: always()
         run: allure generate allure-results --clean -o allure-report
 
-      # 5. 上传报告
       - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report
+
+  smoke:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.1.0
+
+      - name: Install uv and Python (latest 3.13)
+        uses: astral-sh/setup-uv@v10.0.0
+        with:
+          enable-cache: true
+          python-version: "3.13"
+
+      - name: Create virtual environment
+        run: uv venv
+
+      - name: Install dependencies
+        run: uv pip install -r requirements.txt
+
+      - name: Wait before tests (avoid WAF blocking)
+        run: sleep 3
+
+      - name: Smoke
+        run: uv run pytest tests/ -m smoke --maxfail=1 --alluredir=smoke-results
