@@ -26,10 +26,22 @@ jobs:
         run: uv venv
 
       - name: Install dependencies
-        run: uv pip install -r requirements.txt
+        run: uv pip install -r requirements.txt pytest-html
 
       - name: Wait before tests (avoid WAF blocking)
         run: sleep 3
 
-      - name: Run tests
-        run: uv run pytest tests/ -v
+      - name: Run tests and generate reports
+        run: |
+          uv run pytest tests/ -v \
+            --html=report.html --self-contained-html \
+            --junitxml=junit.xml
+
+      - name: Upload test reports
+        if: always()   # 无论测试成功或失败都上传
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            report.html
+            junit.xml
