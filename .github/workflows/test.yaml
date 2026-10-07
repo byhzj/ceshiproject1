@@ -26,22 +26,25 @@ jobs:
         run: uv venv
 
       - name: Install dependencies
-        run: uv pip install -r requirements.txt pytest-html
+        run: uv pip install -r requirements.txt
 
       - name: Wait before tests (avoid WAF blocking)
         run: sleep 3
 
-      - name: Run tests and generate reports
-        run: |
-          uv run pytest tests/ -v \
-            --html=report.html --self-contained-html \
-            --junitxml=junit.xml
+      - name: Run tests with Allure results
+        run: uv run pytest tests/ -v --alluredir=allure-results
 
-      - name: Upload test reports
-        if: always()   # 无论测试成功或失败都上传
+      - name: Generate Allure report
+        if: always()
+        uses: simple-elf/allure-report-action@v1.9
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Upload Allure report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports
-          path: |
-            report.html
-            junit.xml
+          name: allure-report
+          path: allure-report

@@ -192,7 +192,7 @@ list_cases:
     desc: "组合查询（手机号+channel）"
     request:
       phone: "18121666066"
-      channel: "1"
+      channel: "0"
     expected:
       code: 200
       msg: "查询成功"
