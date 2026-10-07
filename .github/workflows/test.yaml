@@ -21,6 +21,8 @@ on:
       - synchronize
       - reopened
 
+  workflow_dispatch:
+
 
 jobs:
   test:
