@@ -12,15 +12,23 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/astral-sh/uv:python3.13-trixie
+    runs-on: ubuntu-24.04
+    container: astral/uv:python3.13.4
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: install Dependency
-        run: uv sync
+      - name: Install uv
+        uses: astral-sh/setup-uv@v9
+        with:
+          enable-cache: true
+          python-version: "3.13"
+
+      - name: Sync deps
+        run: uv sync --locked --all-extras --dev
+
+      - name: Test
+        run: uv run pytest
 
       - name: Test
         run: uv run pytest tests/
