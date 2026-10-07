@@ -2,8 +2,31 @@ import pytest
 from pathlib import Path
 from src.common import Api
 from src.common_yaml import load_yaml
+import time
+import functools
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
+# 遇到405和waf重试装饰器 ==========
+def retry_on_405(max_retries=3, delay=2):
+    """装饰器：对返回 405 的请求自动重试"""
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries):
+                response = func(*args, **kwargs)
+                if response.status_code != 405:
+                    return response
+                print(f"[重试] 收到 405，第 {attempt+1} 次重试，等待 {delay}s")
+                time.sleep(delay)
+            return response  # 最后一次仍返回 405
+        return wrapper
+    return decorator
+
+# 对 Api.captcha 方法应用重试
+Api.captcha = retry_on_405()(Api.captcha)
+
 
 @pytest.fixture(scope="function")
 def anon_api():
