@@ -1,0 +1,55 @@
+name: Pytest CI
+
+# 触发条件：push 或 PR 到 main/master 时自动运行
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 第1步：拉取代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 第2步：安装 Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 第3步：安装依赖
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest allure-pytest
+
+      # 第4步：运行测试，生成 allure 结果数据
+      - name: Run tests
+        run: pytest --alluredir=./allure-results
+
+      # 第5步：安装 allure 命令行工具（生成 HTML 报告需要它）
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          curl -L -o allure.tgz https://repo1.maven.org/maven2/io/qameta/allure/allure-commandline/2.46.1/allure-commandline-2.46.1.tgz
+          mkdir -p allure-cli
+          tar -xzf allure.tgz -C allure-cli --strip-components=1
+          echo "$PWD/allure-cli/bin" >> "$GITHUB_PATH"
+
+      # 第6步：把 allure-results 数据转成 HTML 网页报告
+      - name: Generate Allure Report
+        if: always()
+        run: allure generate ./allure-results -o ./allure-report --clean
+
+      # 第7步：上传 HTML 报告（测试失败也上传，方便排查）
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
